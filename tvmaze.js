@@ -32,7 +32,7 @@ async function searchShows(query) {
     }
     showsArray.push(show)
   }
-  console.log(showsArray);
+  
   return showsArray
 }
 
@@ -77,7 +77,7 @@ $("#search-form").on("submit", async function handleSearch (evt) {
   $("#episodes-area").hide();
 
   let shows = await searchShows(query);
-  console.log(shows);
+  
   populateShows(shows);
 });
 
