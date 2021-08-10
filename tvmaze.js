@@ -20,24 +20,20 @@ BASEURL = 'http://api.tvmaze.com'
       }
  */
 async function searchShows(query) {
-  await axios.get(`${BASEURL}/search/shows?q=${query}`)
-        .then(function (res) {
-          showsArray = []
-          for (const showObj of res.data) {
-            show = {
-              id: showObj.show.id,
-              name: showObj.show.name,
-              summary: showObj.show.summary,
-              image: showObj.show.image.medium
-            }
-            showsArray.push(show)
-          }
-          console.log(showsArray);
-          return showsArray
-        })
-        .catch(function (err) {
-          console.log(err)
-        })
+  let showsArray = []
+  let res = await axios.get(`${BASEURL}/search/shows?q=${query}`)
+        
+  for (const showObj of res.data) {
+    show = {
+      id: showObj.show.id,
+      name: showObj.show.name,
+      summary: showObj.show.summary,
+      image: showObj.show.image.medium
+    }
+    showsArray.push(show)
+  }
+  console.log(showsArray);
+  return showsArray
 }
 
 
