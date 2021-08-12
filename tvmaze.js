@@ -57,12 +57,34 @@ function populateShows(shows) {
              <h5 class="card-title">${show.name}</h5>
              <p class="card-text">${show.summary}</p>
            </div>
+           <button type="button" class="btn btn-primary show-episodes-btn">Show Episodes</button>
          </div>
        </div>
       `
     )
 
-    $showsList.append($item);
+    $showsList.append($item)
+
+    /** Handle search form submission:
+     *    - show episodes area
+     *    - get list of matching episodes and show in episodes list
+     */
+    $('.show-episodes-btn').on(
+      'click',
+      async function handleEpisodeReveal(evt) {
+        evt.preventDefault()
+
+        button = evt.currentTarget
+        $buttonParentDiv = $(button).closest('div')
+        id = $buttonParentDiv.data('showId')
+
+        $('#episodes-area').show()
+
+        let episodes = await getEpisodes(id)
+
+        populateEpisodes(episodes)
+      }
+    )
   }
 }
 
@@ -105,3 +127,18 @@ async function getEpisodes(id) {
   // Return array-of-episode-info
   return episodesArray
 }
+
+/** Populate episodes list:
+ *     - given list of episodes, add episodes to DOM
+ */
+function populateEpisodes(episodes) {
+  const $episodesList = $('#episodes-list')
+  $episodesList.empty()
+
+  for (let episode of episodes) {
+    let $item = $(`<li>${episode.name} (Season ${episode.season}, Number ${episode.number})</li>`)
+
+    $episodesList.append($item)
+  }
+}
+
